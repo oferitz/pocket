@@ -1,0 +1,2 @@
+# zipper
+PouchDB desktop client
