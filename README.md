@@ -1,2 +1,2 @@
-# zipper
+# pocket
 PouchDB desktop client
