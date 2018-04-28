@@ -1,0 +1,52 @@
+{
+  "name": "pocket",
+  "version": "1.0.0",
+  "description": "PouchDB desktop client",
+  "main": "main.js",
+  "files": [
+    "main.js",
+    "build/*"
+  ],
+  "scripts": {
+    "dev": "parcel ./app/renderer/index.html -d build/ & node ./scripts/startDev",
+    "start-dev": "ELECTRON_START_URL=http://localhost:1234 electron .",
+    "start": "electron .",
+    "build": "parcel build ./app/renderer/index.html -d build/ --public-url ./",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oferitz/pocket.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oferitz/pocket/issues"
+  },
+  "homepage": "https://github.com/oferitz/pocket#readme",
+  "dependencies": {
+    "history": "^4.7.2",
+    "pouchdb": "^6.4.3",
+    "pouchdb-browser": "^6.4.3",
+    "pouchdb-find": "^6.4.3",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-error-boundary": "^1.2.2",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "electron": "^1.8.4",
+    "electron-reload": "^1.2.2",
+    "jest": "^22.4.3",
+    "less": "^3.0.1",
+    "parcel-bundler": "^1.7.1",
+    "prettier": "^1.12.1"
+  }
+}
