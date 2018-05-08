@@ -1,6 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Logo from '../../static/pocket.svg'
+import { Link } from 'react-router-dom'
+import Logo from '../../static/svg/pocket.svg'
+import Add from '../../static/svg/plus.svg'
+import './home.less'
+
 function Home(props) {
 	return (
 		<div className="Pocket_home">
@@ -11,12 +14,12 @@ function Home(props) {
 			<div className="Pocket_home__empty__message">
 				<h2>No database connections added.</h2>
 				<p>Click the "+" to add a PouchDB connection.</p>
+				<Link to="/newConnection">
+					<img src={Add} width={32} />
+				</Link>
 			</div>
 		</div>
 	)
 }
-
-Home.propTypes = {}
-Home.defaultProps = {}
 
 export default Home

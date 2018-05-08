@@ -1,6 +1,6 @@
 import React from 'react'
 import './error.less'
-import ErrorImg from '../../static/error.svg'
+import ErrorImg from '../../static/svg/error.svg'
 
 
 const toTitle = (error, componentStack) => {

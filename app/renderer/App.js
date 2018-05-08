@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import { hot } from 'react-hot-loader'
 import { Router } from 'react-router'
 import Routes from './routes'
-import createBrowserHistory from 'history/createBrowserHistory'
-const browserHistory = createBrowserHistory()
+import createHashHistory from 'history/createHashHistory'
+const history = createHashHistory()
 
 import './style/app.less'
 
@@ -15,11 +16,11 @@ class App extends Component {
 
 	render() {
 		return (
-			<Router history={browserHistory}>
+			<Router history={history}>
 				<Routes />
 			</Router>
 		)
 	}
 }
 
-export default App
+export default hot(module)(App)

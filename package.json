@@ -37,16 +37,19 @@
     "react-dom": "^16.3.2",
     "react-error-boundary": "^1.2.2",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2"
+    "react-router-dom": "^4.2.2",
+    "react-router-transition": "^1.2.1"
   },
   "devDependencies": {
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "electron": "^1.8.4",
+    "electron": "^2.0.0",
+    "electron-builder": "^20.13.2",
     "electron-reload": "^1.2.2",
     "jest": "^22.4.3",
-    "less": "^3.0.1",
+    "less": "^3.0.4",
     "parcel-bundler": "^1.7.1",
-    "prettier": "^1.12.1"
+    "prettier": "^1.12.1",
+    "react-hot-loader": "^4.1.2"
   }
 }
