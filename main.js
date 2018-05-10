@@ -1,39 +1,81 @@
-const electron = require('electron')
-const { app, BrowserWindow } = electron
-const path = require('path')
-const url = require('url')
+/**
+ * This module executes inside of electron's main process. You can start
+ * electron renderer process from here and communicate with the other processes
+ * through IPC.
+ *
+ * When running `npm run build` or `npm run build-main`, this file is compiled to
+ * `./app/main.prod.js` using webpack. This gives us some performance wins.
+ *
+ *
+ */
+const { app, BrowserWindow } = require('electron')
+const ipcMain = require('electron').ipcMain
 
+// import MenuBuilder from './menu'
 
-if (process.env.ELECTRON_START_URL) {
-	require('electron-reload')(__dirname)
+let mainWindow = null
+
+// if (process.env.NODE_ENV === 'production') {
+// 	const sourceMapSupport = require('source-map-support')
+// 	sourceMapSupport.install()
+// }
+
+if (
+	process.env.NODE_ENV === 'development' ||
+	process.env.DEBUG_PROD === 'true'
+) {
+	require('electron-debug')()
+	// const path = require('path')
+	// const p = path.join(__dirname, '..', 'app', 'node_modules')
+	// require('module').globalPaths.push(p)
 }
 
-// To avoid being garbage collected
-let mainWindow
+const installExtensions = async () => {
+	const installer = require('electron-devtools-installer')
+	const forceDownload = !!process.env.UPGRADE_EXTENSIONS
+	const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
 
-app.on('ready', () => {
-	let mainWindow = new BrowserWindow({
-		width: 1280,
-		height: 720,
-		minWidth: 1280,
-		minHeight: 720,
+	return Promise.all(
+		extensions.map(name => installer.default(installer[name], forceDownload))
+	).catch(console.log)
+}
+
+/**
+ * Add event listeners...
+ */
+
+app.on('window-all-closed', () => {
+	// Respect the OSX convention of having the application in memory even
+	// after all windows have been closed
+	if (process.platform !== 'darwin') {
+		app.quit()
+	}
+})
+
+app.on('ready', async () => {
+	if (
+		process.env.NODE_ENV === 'development' ||
+		process.env.DEBUG_PROD === 'true'
+	) {
+		await installExtensions()
+	}
+
+
+
+	mainWindow = new BrowserWindow({
 		show: false,
+		width: 1200,
+		height: 728,
+		minWidth: 1200,
+		minHeight: 728,
 		titleBarStyle: 'hiddenInset',
 		movable: true
 	})
 
-	const startUrl =
-		process.env.ELECTRON_START_URL ||
-		url.format({
-			pathname: path.join(__dirname, './build/index.html'),
-			protocol: 'file:',
-			slashes: true
-		})
+	mainWindow.loadURL(`file://${__dirname}/app/renderer/index.html`)
 
-	mainWindow.loadURL(startUrl)
-
-
-
+	// @TODO: Use 'ready-to-show' event
+	//        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
 	mainWindow.webContents.on('did-finish-load', () => {
 		if (!mainWindow) {
 			throw new Error('"mainWindow" is not defined')
@@ -42,27 +84,15 @@ app.on('ready', () => {
 		mainWindow.focus()
 	})
 
-	mainWindow.on('closed', function() {
-		// Dereference the window object, usually you would store windows
-		// in an array if your app supports multi windows, this is the time
-		// when you should delete the corresponding element.
+	mainWindow.on('show', event => {
+		if (process.env.NODE_ENV === 'development')
+			mainWindow.webContents.openDevTools()
+	})
+
+	mainWindow.on('closed', () => {
 		mainWindow = null
 	})
-})
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function() {
-	// On OS X it is common for applications and their menu bar
-	// to stay active until the user quits explicitly with Cmd + Q
-	if (process.platform !== 'darwin') {
-		app.quit()
-	}
-})
-
-app.on('activate', function() {
-	// On OS X it's common to re-create a window in the app when the
-	// dock icon is clicked and there are no other windows open.
-	if (mainWindow === null) {
-		createWindow()
-	}
+	// const menuBuilder = new MenuBuilder(mainWindow)
+	// menuBuilder.buildMenu()
 })

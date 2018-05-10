@@ -12,6 +12,23 @@
     You need to enable JavaScript to run this app.
 </noscript>
 <div id="root"></div>
-<script src="index.js"></script>
+<script>
+
+	{
+		const scripts = [];
+		// Dynamically insert the bundled app script in the renderer process
+		const port = process.env.PORT || 7000;
+		scripts.push(
+			(process.env.HOT)
+				? 'http://localhost:' + port + '/dist/renderer.dev.js'
+				: '../../dist/renderer.prod.js'
+		);
+		document.write(
+			scripts
+				.map(script => '<script defer src="' + script + '"><\/script>')
+				.join('')
+		);
+	}
+</script>
 </body>
 </html>
