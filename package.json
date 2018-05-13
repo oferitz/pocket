@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/oferitz/pocket#readme",
   "dependencies": {
+    "electron-better-ipc": "^0.1.1",
     "history": "^4.7.2",
     "pouchdb": "^6.4.3",
     "pouchdb-browser": "^6.4.3",

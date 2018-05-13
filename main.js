@@ -9,7 +9,7 @@
  *
  */
 const { app, BrowserWindow } = require('electron')
-const ipcMain = require('electron').ipcMain
+require('./app/main/db')
 
 // import MenuBuilder from './menu'
 
